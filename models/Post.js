@@ -4,7 +4,6 @@ const PostSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true
     },
     description: {
         type: String,
@@ -14,7 +13,7 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    userName: {
+    username: {
         type: String,
         required: true,
     },
