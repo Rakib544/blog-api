@@ -10,4 +10,4 @@ const CategorySchema = new mongoose.Schema(
     { timeStamps: true }
 )
 
-module.exports = mongoose.modal('Category', CategorySchema)
+module.exports = mongoose.model('Category', CategorySchema)
