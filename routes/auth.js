@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/User');
+const Admin = require('../models/Admin');
 const bcrypt = require('bcrypt');
 
 
@@ -34,8 +35,20 @@ router.post('/login', async (req, res) => {
         const validate = await bcrypt.compare(req.body.password, user.password)
         !validate && res.status(400).json('Authentication Failed')
 
-        const {password, ...rest} = user._doc;
-        res.status(200).json(rest)
+        const users = await Admin.find({})
+        const { password, ...rest } = user._doc;
+        const isAdmin = users.find(user => user.email === rest.email)
+
+        if (isAdmin) {
+            const newObj = { ...rest }
+            newObj.isAdmin = true;
+            res.status(200).json(newObj)
+        } else {
+            const newObj = { ...rest }
+            newObj.isAdmin = false
+            res.status(200).json(newObj)
+        }
+
     } catch (err) {
         res.status(500).json(err)
     }
