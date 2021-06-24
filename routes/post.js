@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 //CREATE NEW POST
 router.post("/", async (req, res) => {
     const newPost = new Post(req.body);
-
     try {
         const savedPost = await newPost.save();
         res.status(200).json(savedPost)
@@ -59,34 +58,23 @@ router.delete('/:id', async (req, res) => {
 })
 
 
-//GET POST
-router.get('/:id', async(req, res) => {
-    try{
+//GET SINGLE POST
+router.get('/:id', async (req, res) => {
+    try {
         const post = await Post.findById(req.params.id);
         res.status(200).json(post)
-    }catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 })
 
 //GET ALL POST
-router.get('/', async(req, res) => {
-    const username = req.query.user;
-    const categoryName = req.query.category;
-    
-    try{
-        let posts;
-        if(username) {
-            posts = await Post.find({username})
-        } else if(categoryName) {
-            posts = await Post.find({categories: {
-                $in:[categoryName]
-            }})
-        }else {
-            posts = await Post.find();
-        }
+router.get('/', async (req, res) => {
+
+    try {
+        const posts = await Post.find({})
         res.status(200).json(posts)
-    }catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 })
